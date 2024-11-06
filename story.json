@@ -1,0 +1,663 @@
+{
+    "config": {
+        "colors": {
+            "dialogue": "cyan",
+            "combat": "red",
+            "choices": "green",
+            "effects": "yellow",
+            "system": "white",
+            "error": "red",
+            "success": "green",
+            "spooky": "magenta",
+            "treasure": "yellow"
+        }
+    },
+    "start": {
+        "description": {
+            "text": "Discord Server: 'DJANGO' #general-chat\n\n[20:15] {player1}: 'On se retrouve à Berraka ce soir? The usual spot?'\n[20:15] {player2}: 'Inchallah! J'ai une nouvelle à partager!'\n[20:16] {player3}: 'Ana ready dans 30min'\n[20:16] {player4}: '7ta ana jay...'\n\n[20:17] SERVER_MESSAGE: '⚠️ Unusual activity detected in channel'\n\n[20:17] UNKNOWN_USER: 'الوقت يدور... wakha tdoro, ghadi terj3o l'origine...'\n\nThe Discord interface begins to distort. Strange symbols flash across the screen, mixing Arabic calligraphy with binary code. The usual Discord sound effects begin to reverse and echo.",
+            "color": "spooky"
+        },
+        "choices": [
+            {
+                "text": "{current_player} attempts to disconnect from the server",
+                "effect": {
+                    "damage": 5,
+                    "buff_defense": 2
+                },
+                "next_scene": "disconnect_attempt"
+            },
+            {
+                "text": "The group needs to decide whether to send an emergency message",
+                "voting_system": {
+                    "type": "majority",
+                    "options": [
+                        {
+                            "text": "Type 'SOS' in the chat",
+                            "scene": "sos_message"
+                        },
+                        {
+                            "text": "Try to call for help outside Discord",
+                            "scene": "external_help"
+                        }
+                    ],
+                    "tie_breaker": "random"
+                }
+            },
+            {
+                "text": "{current_player} tries to decode the strange message",
+                "effect": {
+                    "buff_attack": 3,
+                    "buff_defense": 1
+                },
+                "next_scene": "decode_attempt"
+            },
+            {
+                "text": "Make an emergency group call",
+                "requires_vote": {
+                    "min_players": 3,
+                    "timeout": 2,
+                    "success_scene": "group_call",
+                    "failure_scene": "forced_transport"
+                }
+            }
+        ]
+    },
+    "disconnect_attempt": {
+        "description": {
+            "text": "As {current_player} clicks the disconnect button, their screen freezes completely. The Discord window begins to expand, consuming their entire screen. A ghostly image of Berraka's entrance flickers in the background...",
+            "color": "spooky"
+        },
+        "choices": [
+            {
+                "text": "{current_player} force-quits the application",
+                "next_scene": "force_quit_consequence"
+            },
+            {
+                "text": "Wait and observe what happens",
+                "next_scene": "observation_outcome"
+            }
+        ]
+    },
+
+"force_quit_consequence": {
+        "description": {
+            "text": "L'écran de {current_player} devient complètement noir. Une voix mystérieuse murmure:\n\n'Les portes de la réalité s'ouvrent ce soir...'\n\nSoudainement, des symboles étranges apparaissent:\n\n⚜️ ATTENTION: La connexion entre les dimensions est établie ⚜️\n\n{player2}: 'Qu'est-ce qui se passe?!'\n{player3}: 'Mes écouteurs... je peux entendre la musique de Berraka!'\n{player4}: 'C'est impossible... je sens l'odeur du café!'\n{player1}: 'On dirait que quelque chose nous attire vers le bar...'",
+            "color": "spooky"
+        },
+        "choices": [
+            {
+                "text": "{current_player} essaye de contacter le gérant de Berraka par téléphone",
+                "next_scene": "phone_call_scene"
+            },
+            {
+                "text": "Le groupe doit décider d'accepter ou résister à l'attraction",
+                "voting_system": {
+                    "type": "majority",
+                    "options": [
+                        {
+                            "text": "Se laisser emporter par le phénomène",
+                            "scene": "acceptance_scene"
+                        },
+                        {
+                            "text": "Résister de toutes vos forces",
+                            "scene": "resistance_scene"
+                        }
+                    ],
+                    "tie_breaker": "random"
+                }
+            }
+        ]
+    },
+    "phone_call_scene": {
+        "description": {
+            "text": "{current_player} saisit son téléphone. L'écran affiche: 'Berraka ☎️'\n\nUne voix déformée répond: 'Bonsoir, vous avez atteint les limites du temps. Ce soir, Berraka n'est plus ce que vous connaissez...'\n\n{player2}: 'Attendez, c'est la voix de Mohamed le serveur, mais... différente'\n{player3}: 'Cheft? On dirait qu'il parle à travers un vieux gramophone!'\n{player4}: 'Les gars... mon écran commence à se transformer en liquide!'",
+            "color": "dialogue"
+        },
+        "choices": [
+            {
+                "text": "{current_player} tente d'enregistrer la conversation",
+                "effect": {
+                    "buff_attack": 5,
+                    "buff_defense": 2
+                },
+                "next_scene": "recording_scene"
+            },
+            {
+                "text": "Décision rapide: Raccrocher ou continuer?",
+                "requires_vote": {
+                    "min_players": 2,
+                    "timeout": 1,
+                    "success_scene": "continue_call",
+                    "failure_scene": "forced_transport"
+                }
+            }
+        ]
+    },
+    "acceptance_scene": {
+        "description": {
+            "text": "Le groupe accepte l'inévitable. Les écrans se transforment en portails liquides.\n\nVoix Mystérieuse: 'Bienvenue dans l'autre Berraka. Ce soir, le temps n'a plus de sens.'\n\nUne sensation de chute vertigineuse envahit tout le monde. Des images défilent:\n- Les tables familières de Berraka, mais couvertes de symboles lumineux\n- Le vieux jukebox qui joue une mélodie inversée\n- Les murs qui semblent respirer\n\n{player1}: 'Je peux pas y croire...'\n{player2}: 'On est vraiment en train de...'",
+            "color": "spooky"
+        },
+        "choices": [
+            {
+                "text": "{current_player} tente de garder les yeux ouverts pendant la transition",
+                "combat": {
+                    "health": 40,
+                    "attack": 8,
+                    "defense": 12,
+                    "name": "Vertiges Dimensionnels",
+                    "color": "red"
+                },
+                "success": "clear_vision",
+                "failure": "dizzy_arrival"
+            },
+            {
+                "text": "Le groupe se tient la main virtuellement pour rester ensemble",
+                "voting_system": {
+                    "type": "majority",
+                    "options": [
+                        {
+                            "text": "Former un cercle de protection",
+                            "scene": "protected_transport"
+                        },
+                        {
+                            "text": "Se laisser porter par le courant",
+                            "scene": "separate_transport"
+                        }
+                    ],
+                    "tie_breaker": "random"
+                }
+            }
+        ]
+    },
+    "observation_outcome": {
+        "description": {
+            "text": "En observant l'écran, des phénomènes étranges se manifestent...\n\nLe chat Discord commence à défiler tout seul, révélant d'anciennes conversations:\n\n[Il y a 3 mois]\n{player1}: 'Berraka wella notre deuxième maison!'\n\n[Il y a 2 mois]\n{player2}: 'La nouvelle déco est magnifique!'\n\n[Il y a 1 semaine]\n{player3}: 'Weird... le café avait un goût bizarre hier soir'\n\nSoudainement, une nouvelle message apparaît:\n\n[SYSTÈME_TEMPOREL]: 'Les souvenirs se mélangent. Le temps se plie. Vos moments à Berraka créent une fissure temporelle...'\n\n{player4}: 'Regardez! Les messages... ils changent tous seuls!'",
+            "color": "spooky"
+        },
+        "choices": [
+            {
+                "text": "{current_player} essaie de prendre des screenshots des messages étranges",
+                "effect": {
+                    "buff_defense": 5,
+                    "buff_attack": 2
+                },
+                "next_scene": "evidence_gathering"
+            },
+            {
+                "text": "Le groupe doit analyser les messages ensemble",
+                "voting_system": {
+                    "type": "majority",
+                    "options": [
+                        {
+                            "text": "Chercher des patterns dans les dates",
+                            "scene": "pattern_analysis"
+                        },
+                        {
+                            "text": "Se concentrer sur les changements à Berraka",
+                            "scene": "changes_analysis"
+                        }
+                    ],
+                    "tie_breaker": "random"
+                }
+            },
+            {
+                "text": "{current_player} tente de répondre au SYSTÈME_TEMPOREL",
+                "combat": {
+                    "health": 30,
+                    "attack": 15,
+                    "defense": 10,
+                    "name": "Paradoxe Temporel",
+                    "color": "red"
+                },
+                "success": "successful_communication",
+                "failure": "communication_backfire"
+            },
+            {
+                "text": "Méditation collective pour comprendre les visions",
+                "requires_vote": {
+                    "min_players": 3,
+                    "timeout": 2,
+                    "success_scene": "shared_vision",
+                    "failure_scene": "confused_transport"
+                }
+            }
+        ]
+    },
+    "evidence_gathering": {
+        "description": {
+            "text": "{current_player} appuie frénétiquement sur la touche 'Print Screen', mais chaque capture montre une version différente de Berraka:\n\n- Screenshot 1: La façade habituelle\n- Screenshot 2: Le même endroit, mais dans les années 90\n- Screenshot 3: Une version futuriste du bar\n\n{player2}: 'C'est comme si on voyait toutes les versions possibles...'\n{player3}: 'Attendez... على حساب les photos, Berraka a toujours existé?'\n{player4}: 'Les gars... je crois qu'on va découvrir quelque chose de fou'",
+            "color": "dialogue"
+        },
+        "choices": [
+            {
+                "text": "Analyser les screenshots plus en détail",
+                "next_scene": "detailed_analysis"
+            },
+            {
+                "text": "Partager les images sur un autre réseau",
+                "next_scene": "share_attempt"
+            }
+        ]
+    },
+    
+        "detailed_analysis": {
+            "description": {
+                "text": "En analysant les screenshots, des détails troublants émergent...\n\nLe premier screenshot révèle un message caché sur le mur de Berraka:\n'Le gardien du temps veille depuis 1924.'\n\n{player1}: 'Attendez... il y a quelque chose d'écrit dans chaque version!'\n\nVersion 90s:\n'Les secrets se cachent dans le café noir.'\n\nVersion Futuriste:\n'La boucle doit être fermée ce soir.'\n\nSoudain, l'écran de {current_player} commence à vibrer. Une nouvelle fenêtre s'ouvre, affichant un message cryptique:\n\n'SYSTÈME_BERRAKA: Quatre âmes, quatre époques, une seule vérité. L'heure approche...'\n\n{player2}: 'On dirait qu'on est... choisis?'\n{player3}: 'C'est un délire total!'\n{player4}: 'Je sens mes mains qui picotent... c'est comme si l'écran m'attirait...'",
+                "color": "spooky"
+            },
+            "choices": [
+                {
+                    "text": "{current_player} tente de déchiffrer le code temporel",
+                    "combat": {
+                        "health": 45,
+                        "attack": 12,
+                        "defense": 8,
+                        "name": "Énigme Temporelle",
+                        "color": "red"
+                    },
+                    "success": "code_breakthrough",
+                    "failure": "temporal_confusion"
+                },
+                {
+                    "text": "Le groupe doit choisir une époque à explorer",
+                    "voting_system": {
+                        "type": "majority",
+                        "options": [
+                            {
+                                "text": "Explorer Berraka 1924",
+                                "scene": "past_exploration"
+                            },
+                            {
+                                "text": "Explorer Berraka Futuriste",
+                                "scene": "future_exploration"
+                            },
+                            {
+                                "text": "Rester dans le présent",
+                                "scene": "present_investigation"
+                            }
+                        ],
+                        "tie_breaker": "random"
+                    }
+                },
+                {
+                    "text": "Toucher l'écran ensemble à 3..2..1",
+                    "requires_vote": {
+                        "min_players": 4,
+                        "timeout": 1,
+                        "success_scene": "synchronized_transport",
+                        "failure_scene": "chaotic_transport"
+                    }
+                }
+            ]
+        },
+        "synchronized_transport": {
+            "description": {
+                "text": "Au moment où vos doigts touchent vos écrans respectifs, une lumière aveuglante envahit la pièce. Une sensation de chute vertigineuse vous envahit...\n\nVoix Mystérieuse: 'Bienvenue dans l'entre-temps.'\n\nLorsque votre vision s'éclaircit, vous vous retrouvez tous les quatre devant Berraka, mais quelque chose est... différent.\n\nLes murs semblent ondulés, comme des vagues figées dans le temps. L'enseigne affiche simultanément trois dates différentes. L'air est chargé d'une énergie étrange.\n\n{player1}: 'C'est encore Berraka mais...'\n{player2}: 'On dirait que toutes les époques se superposent!'\n{player3}: 'Regardez le serveur là-bas... il clippe entre différentes versions de lui-même!'\n{player4}: 'La porte... elle nous appelle...'",
+                "color": "spooky"
+            },
+            "choices": [
+                {
+                    "text": "{current_player} examine l'enseigne changeante",
+                    "effect": {
+                        "buff_attack": 3,
+                        "buff_defense": 5
+                    },
+                    "next_scene": "sign_investigation"
+                },
+                {
+                    "text": "Entrer ensemble dans le bar",
+                    "voting_system": {
+                        "type": "majority",
+                        "options": [
+                            {
+                                "text": "Entrer par la porte des années 20",
+                                "scene": "roaring_twenties_entrance"
+                            },
+                            {
+                                "text": "Entrer par la porte futuriste",
+                                "scene": "future_entrance"
+                            },
+                            {
+                                "text": "Entrer par la porte du présent",
+                                "scene": "present_entrance"
+                            }
+                        ],
+                        "tie_breaker": "random"
+                    }
+                }
+            ]
+        },
+    "roaring_twenties_entrance": {
+        "description": {
+            "text": "En franchissant la porte des années 20, l'atmosphère change instantanément. Le jazz remplit l'air, la fumée des cigarettes forme des motifs étranges...\n\nLe Berraka de 1924 est méconnaissable:\n- Des lampes art déco projettent une lumière ambrée\n- Un pianiste fantomatique joue sur un vieux piano\n- Les clients, vêtus à l'ancienne, semblent figés dans le temps\n\n{player1}: 'C'est fou... on dirait un film en noir et blanc!'\n{player2}: 'Regardez le Hafid Lbarman... il nous fixe comme s'il nous attendait.'\n{player3}: 'Les verres... ils se remplissent tout seuls!'\n{player4}: 'Chut... quelqu'un parle en arabe ancien...'\n\nUne voix résonne: 'Ah, les voyageurs du temps sont enfin là. Votre mission commence maintenant.'",
+            "color": "spooky"
+        },
+        "choices": [
+            {
+                "text": "{current_player} s'approche du Hafid Lbarman mystérieux",
+                "combat": {
+                    "health": 50,
+                    "attack": 15,
+                    "defense": 10,
+                    "name": "Gardien du Temps",
+                    "color": "red"
+                },
+                "success": "bartender_dialogue",
+                "failure": "temporal_rejection"
+            },
+            {
+                "text": "Le groupe doit résoudre l'énigme du piano",
+                "voting_system": {
+                    "type": "majority",
+                    "options": [
+                        {
+                            "text": "Jouer la mélodie mystérieuse",
+                            "scene": "melody_puzzle"
+                        },
+                        {
+                            "text": "Observer les partitions changeantes",
+                            "scene": "sheet_music_analysis"
+                        }
+                    ],
+                    "tie_breaker": "random"
+                }
+            },
+            {
+                "text": "Examiner les verres qui se remplissent",
+                "requires_vote": {
+                    "min_players": 2,
+                    "timeout": 2,
+                    "success_scene": "magical_drink",
+                    "failure_scene": "spilled_potion"
+                }
+            }
+        ]
+    },
+    "bartender_dialogue": {
+        "description": {
+            "text": "Le Hafid Lbarman sourit mystérieusement. Son badge change constamment de nom:\n'7amada' → 'Chgaga' → 'Morad' → 'Marcel'\n\nHafid Lbarman: 'Vous êtes venus réparer la fissure temporelle. Mais d'abord, un test...'\n\nIl sort quatre verres anciens, chacun contenant un liquide différent:\n- Un verre qui contient ce qui semble être du thé à la menthe traditionnel\n- Un verre de ce qui ressemble à un cocktail futuriste luminescent\n- Un verre de café noir fumant\n- Un verre de liquide changeant de couleur\n\nHafid Lbarman: 'Chacun doit choisir... mais attention, vos choix influenceront le destin de Berraka.'",
+            "color": "dialogue"
+        },
+        "choices": [
+            {
+                "text": "{current_player} choisit un verre",
+                "effect": {
+                    "heal": 20,
+                    "buff_attack": 5,
+                    "buff_defense": 5
+                },
+                "next_scene": "drink_consequence"
+            },
+            {
+                "text": "Le groupe échange les verres",
+                "voting_system": {
+                    "type": "majority",
+                    "options": [
+                        {
+                            "text": "Chacun boit le verre de son époque préférée",
+                            "scene": "synchronized_drinking"
+                        },
+                        {
+                            "text": "Mélanger tous les verres ensemble",
+                            "scene": "mixed_timeline_effect"
+                        }
+                    ],
+                    "tie_breaker": "random"
+                }
+            },
+            {
+                "text": "{current_player} analyse les liquides",
+                "combat": {
+                    "health": 40,
+                    "attack": 12,
+                    "defense": 8,
+                    "name": "Vision Temporelle",
+                    "color": "red"
+                },
+                "success": "liquid_vision",
+                "failure": "vision_overwhelm"
+            }
+        ]
+    },
+    "synchronized_drinking": {
+        "description": {
+            "text": "Au moment où vous portez les verres à vos lèvres, le temps semble se figer...\n\nLe Hafid Lbarman: 'À trois... Un... Deux... TROIS!'\n\nChaque joueur boit simultanément:\n\n{player1} boit le thé à la menthe - Une vague de souvenirs du vieux Maroc envahit son esprit\n{player2} boit le cocktail luminescent - Des visions du futur de Berraka flashent devant ses yeux\n{player3} boit le café noir - Le présent se dévoile sous un nouvel angle\n{player4} boit le liquide changeant - Toutes les époques se mélangent dans sa tête\n\nSoudain, les murs de Berraka deviennent transparents, révélant des couches temporelles:\n\nANNÉE 1924:\nUn groupe de résistants planifie quelque chose...\n\nPRÉSENT:\nUne cachette secrète derrière le comptoir...\n\nFUTUR:\nUn portail dimensionnel sous le bar...\n\nVoix Mystérieuse: 'Les secrets de Berraka sont maintenant dans votre sang. À vous de les assembler...'",
+            "color": "spooky"
+        },
+        "choices": [
+            {
+                "text": "{current_player} tente de se concentrer sur une époque spécifique",
+                "effect": {
+                    "buff_attack": 10,
+                    "buff_defense": 5
+                },
+                "next_scene": "focused_vision"
+            },
+            {
+                "text": "Le groupe doit choisir quelle vision explorer",
+                "voting_system": {
+                    "type": "majority",
+                    "options": [
+                        {
+                            "text": "Suivre les résistants de 1924",
+                            "scene": "resistance_mission"
+                        },
+                        {
+                            "text": "Explorer la cachette du présent",
+                            "scene": "secret_hideout"
+                        },
+                        {
+                            "text": "Examiner le portail du futur",
+                            "scene": "future_portal"
+                        }
+                    ],
+                    "tie_breaker": "random"
+                }
+            },
+            {
+                "text": "Tentative de communication télépathique entre le groupe",
+                "requires_vote": {
+                    "min_players": 4,
+                    "timeout": 2,
+                    "success_scene": "shared_consciousness",
+                    "failure_scene": "mental_chaos"
+                }
+            },
+            {
+                "text": "{current_player} essaie de parler avec les visions",
+                "combat": {
+                    "health": 60,
+                    "attack": 15,
+                    "defense": 12,
+                    "name": "Écho Temporel",
+                    "color": "red"
+                },
+                "success": "vision_communication",
+                "failure": "temporal_backlash"
+            }
+        ]
+    },
+    "shared_consciousness": {
+        "description": {
+            "text": "Vos esprits se connectent soudainement, créant un réseau de pensées partagées...\n\n{player1} [mentalement]: 'Je vois une carte... cachée dans une bouteille de thé!'\n{player2}: 'Les coordonnées... elles changent selon l'époque!'\n{player3}: 'Attendez... tout est lié au café!'\n{player4}: 'Le Hafid Lbarman... c'est la même personne à travers le temps!'\n\nUne révélation collective vous frappe:\n\nBerraka n'est pas qu'un simple bar...\nC'est un nexus temporel, un point de convergence entre les époques.\n\nLe Hafid Lbarman réapparaît, son apparence fluctuant entre ses différentes versions:\n\n'Maintenant que vous comprenez, voici votre véritable mission...'\n\nSur le mur, des symboles s'illuminent, formant un message cryptique en trois langues:",
+            "color": "dialogue"
+        },
+        "choices": [
+            {
+                "text": "Déchiffrer le message ensemble",
+                "voting_system": {
+                    "type": "majority",
+                    "options": [
+                        {
+                            "text": "Utiliser vos connaissances combinées",
+                            "scene": "collective_decryption"
+                        },
+                        {
+                            "text": "Laisser chacun traduire sa partie",
+                            "scene": "individual_translation"
+                        }
+                    ],
+                    "tie_breaker": "random"
+                }
+            },
+            {
+                "text": "{current_player} tente de mémoriser les symboles",
+                "effect": {
+                    "buff_attack": 8,
+                    "buff_defense": 8
+                },
+                "next_scene": "symbol_memory"
+            }
+        ]
+    },
+    "collective_decryption": {
+        "description": {
+            "text": "Les symboles sur le mur brillent d'une lueur changeante. Le message apparaît en trois versions superposées:\n\nEn français ancien:\n'Le Gardien du Temps cherche ses héritiers...'\n\nEn arabe classique:\n'أربعة مفاتيح، أربعة أبواب، حقيقة واحدة'\n\nEn Darija moderne:\n'Li fat met, wa li jay ma3rof...'\n\nLe Hafid Lbarman s'approche, sa forme changeant constamment:\n'Chaque époque de Berraka cache une pièce du puzzle. Pour sauver le bar, vous devez récupérer quatre objets sacrés:'\n\n- La Tasse du Premier Café (1924)\n- Le Vinyle des Souvenirs (Années 90)\n- La Clé du Présent \n- La Puce Quantique (Futur)\n\n{player1}: 'Alors c'est ça la mission...'\n{player2}: 'On doit voyager dans chaque époque?'\n{player3}: 'Mais pourquoi nous?'\n{player4}: 'Regardez! Les symboles forment une carte temporelle!'",
+            "color": "dialogue"
+        },
+        "choices": [
+            {
+                "text": "Le groupe doit choisir la première époque à explorer",
+                "voting_system": {
+                    "type": "majority",
+                    "options": [
+                        {
+                            "text": "Commencer par 1924 - La Tasse du Premier Café",
+                            "scene": "first_coffee_quest"
+                        },
+                        {
+                            "text": "Aller aux années 90 - Le Vinyle des Souvenirs",
+                            "scene": "vinyl_quest"
+                        },
+                        {
+                            "text": "Rester au présent - La Clé",
+                            "scene": "present_key_quest"
+                        },
+                        {
+                            "text": "Sauter au futur - La Puce Quantique",
+                            "scene": "quantum_chip_quest"
+                        }
+                    ],
+                    "tie_breaker": "random"
+                }
+            },
+            {
+                "text": "{current_player} tente de photographier la carte temporelle",
+                "combat": {
+                    "health": 45,
+                    "attack": 15,
+                    "defense": 10,
+                    "name": "Distorsion Photographique",
+                    "color": "red"
+                },
+                "success": "temporal_map_captured",
+                "failure": "photo_malfunction"
+            },
+            {
+                "text": "Méditation collective pour comprendre le message",
+                "requires_vote": {
+                    "min_players": 4,
+                    "timeout": 2,
+                    "success_scene": "deep_understanding",
+                    "failure_scene": "confusion_spiral"
+                }
+            }
+        ]
+    },
+    "temporal_map_captured": {
+        "description": {
+            "text": "{current_player} réussit à capturer l'image, mais la photo révèle plus que prévu...\n\nDes lignes temporelles brillantes connectent différents points de Berraka:\n\n1924 ↔️ PRÉSENT:\n'Un secret se cache dans les murs...'\n\nANNÉES 90 ↔️ FUTUR:\n'La musique traverse le temps...'\n\nTOUTES LES ÉPOQUES:\n'Le café est la clé...'\n\nLe Hafid Lbarman intervient: 'Attention! Chaque objet est protégé par une épreuve. Et le temps... le temps nous échappe.'\n\nUn sablier géant apparaît au centre du bar, le sable s'écoule lentement...\n\n{player1}: 'On a combien de temps?'\nHafid Lbarman: 'Jusqu'à ce que la dernière goutte de café refroidisse...'",
+            "color": "spooky"
+        },
+        "choices": [
+            {
+                "text": "{current_player} analyse le sablier mystérieux",
+                "effect": {
+                    "buff_defense": 7,
+                    "buff_attack": 3
+                },
+                "next_scene": "hourglass_study"
+            },
+            {
+                "text": "Diviser le groupe pour chercher les objets",
+                "voting_system": {
+                    "type": "majority",
+                    "options": [
+                        {
+                            "text": "Se séparer en deux groupes",
+                            "scene": "split_team_search"
+                        },
+                        {
+                            "text": "Rester ensemble mais agir vite",
+                            "scene": "unified_search"
+                        }
+                    ],
+                    "tie_breaker": "random"
+                }
+            },
+            {
+                "text": "Interroger le Hafid Li ki fedHafid Lbarman sur les épreuves",
+                "combat": {
+                    "health": 50,
+                    "attack": 12,
+                    "defense": 15,
+                    "name": "Énigme du Gardien",
+                    "color": "red"
+                },
+                "success": "guardian_hints",
+                "failure": "cryptic_warning"
+            }
+        ]
+    },
+    "unified_search": {
+        "description": {
+            "text": "Le groupe décide de rester uni. Le Barman hoche la tête avec approbation.\n\nBarman: 'La force est dans l'unité... comme les quatre ingrédients du café parfait.'\n\nAlors que vous vous approchez du comptoir principal, le décor commence à pulser avec une énergie étrange. Les murs de Berraka révèlent une ancienne fresque cachée...\n\n{player1}: 'Regardez! C'est l'histoire du bar!'\n{player2}: 'On dirait une prophétie...'\n{player3}: 'Wait... c'est nous sur le dessin?!'\n{player4}: 'La fresque... elle bouge!'\n\nLa fresque montre quatre figures portant des objets sacrés, se tenant devant un portail temporel. En dessous, une inscription en trois langues brille:\n\n'Pour ouvrir les portes du temps,\nLe premier test doit être passé.\nProuvez votre unité...'",
+            "color": "spooky"
+        },
+        "choices": [
+            {
+                "text": "Former un cercle et joindre vos mains",
+                "requires_vote": {
+                    "min_players": 4,
+                    "timeout": 2,
+                    "success_scene": "unity_ritual",
+                    "failure_scene": "ritual_interrupted"
+                }
+            },
+            {
+                "text": "{current_player} tente de décoder la prophétie",
+                "combat": {
+                    "health": 55,
+                    "attack": 15,
+                    "defense": 12,
+                    "name": "Vision Prophétique",
+                    "color": "red"
+                },
+                "success": "prophecy_revealed",
+                "failure": "vision_overwhelmed"
+            }
+        ]
+    },
+    "unity_ritual": {
+        "description": {
+            "text": "Au moment où vos mains se touchent, une onde d'énergie parcourt le cercle. Le Barman commence une incantation:\n\n'Par le café qui unit les époques,\nPar le thé qui garde les secrets,\nPar la musique qui traverse le temps,\nLe premier sceau est brisé!'\n\nUne lumière aveuglante émane du centre du cercle. Quand elle se dissipe, vous découvrez...\n\nLA PREMIÈRE CLÉ TEMPORELLE!\n\nLe Barman: 'Félicitations! Vous avez prouvé votre unité. Le premier chapitre se termine, mais votre véritable quête commence à peine...'\n\n[CHAPITRE 1 TERMINÉ: 'L'Éveil des Gardiens']\n\nStatistiques du Chapitre 1:\n- Liens temporels découverts: 3/12\n- Secrets de Berraka révélés: 2/8\n- Synchronisation d'équipe: 85%\n\nLe Barman: 'Reposez-vous... Le prochain chapitre mettra à l'épreuve plus que votre unité.'",
+            "color": "success"
+        },
+        "choices": [
+            {
+                "text": "Sauvegarder votre progression et continuer",
+                "next_scene": "chapter_2_preview"
+            },
+            {
+                "text": "Examiner la clé temporelle",
+                "effect": {
+                    "buff_attack": 10,
+                    "buff_defense": 10,
+                    "heal": 50
+                },
+                "next_scene": "key_examination"
+            }
+        ]
+    }
+}

@@ -1,0 +1,47 @@
+Beraka O Donjon 
+Multiplayer game mdeyora specifically l3chrane
+
+4 player game 
+
+Tour par tour 
+
+Puzzle 
+Smart decision
+Combat
+items
+story 
+
+
+System bach nrja3 tree of choices b tari9a tkon more automated , JSON type of shit imkn 
+
+Turn this from
+
+
+Effect disponible 
+Healing Effect:
+"effect": {
+    "heal": 20  // Heals the player for 20 HP
+}
+
+Attack Buff :
+"effect": {
+    "buff_attack": 5  // Increases player's attack by 5
+}
+
+Defense Buff :
+"effect": {
+    "buff_defense": 3  // Increases player's defense by 3
+}
+
+Damage Effect:
+"effect": {
+    "damage": 10  // Deals 10 damage to the player
+}
+
+You can combine multiple effects:
+
+"effect": {
+    "heal": 20,
+    "buff_attack": 5,
+    "buff_defense": 3
+}
