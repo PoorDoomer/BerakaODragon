@@ -7,6 +7,13 @@ import pygame
 from pygame import gfxdraw
 import pickle
 
+
+#TODO : turn to multiplayer
+#TODO : Fix current player, combat etc
+#TODO : Add sounds and picture
+#TODO : REFACTOR CODE
+
+
 # Initialize Pygame and Mixer
 pygame.init()
 pygame.mixer.init()
@@ -46,19 +53,19 @@ FONTS = {
 # Game clock
 clock = pygame.time.Clock()
 
-# Load sound effects and music
-sound_effects = {
-    'attack': pygame.mixer.Sound('sounds/attack.wav'),
-    'defend': pygame.mixer.Sound('sounds/defend.wav'),
-    'level_up': pygame.mixer.Sound('sounds/level_up.wav'),
-    'item_use': pygame.mixer.Sound('sounds/item_use.wav'),
-    'skill_use': pygame.mixer.Sound('sounds/skill_use.wav'),
-    'enemy_attack': pygame.mixer.Sound('sounds/enemy_attack.wav')
-}
+# # Load sound effects and music
+# sound_effects = {
+#     'attack': pygame.mixer.Sound('sounds/attack.wav'),
+#     'defend': pygame.mixer.Sound('sounds/defend.wav'),
+#     'level_up': pygame.mixer.Sound('sounds/level_up.wav'),
+#     'item_use': pygame.mixer.Sound('sounds/item_use.wav'),
+#     'skill_use': pygame.mixer.Sound('sounds/skill_use.wav'),
+#     'enemy_attack': pygame.mixer.Sound('sounds/enemy_attack.wav')
+# }
 
-# Background music
-pygame.mixer.music.load('sounds/background_music.mp3')
-pygame.mixer.music.play(-1)  # Loop indefinitely
+# # Background music
+# pygame.mixer.music.load('sounds/background_music.mp3')
+# pygame.mixer.music.play(-1)  # Loop indefinitely
 
 # UI Elements
 class UIElement:
