@@ -14,6 +14,11 @@ A kawaii text-based RPG engine written in Python that lets you create and play i
 - 💝 **Status Effects**: Implement buffs, healing, and other effects
 - 📝 **Story Editor**: Create and edit stories using JSON format
 
+## 🚀 Documentation
+
+- [Story Writing Guide](story_guide.md) - Comprehensive guide for creating adventures
+- [Story Guidelines](Story_Guidelines.md) - Best practices and formatting rules
+
 ## 🚀 Quick Start
 
 1. **Clone the repository**
