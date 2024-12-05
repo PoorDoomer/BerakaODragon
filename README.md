@@ -18,6 +18,7 @@ A kawaii text-based RPG engine written in Python that lets you create and play i
 
 - [Story Writing Guide](story_guide.md) - Comprehensive guide for creating adventures
 - [Story Guidelines](Story_Guidelines.md) - Best practices and formatting rules
+- [Technical Documentation](technical_docs.md) - Detailed system architecture and development guide
 
 ## 🚀 Quick Start
 

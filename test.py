@@ -1,3 +1,32 @@
+"""
+Json2RPGDesu - A Kawaii Text-Based RPG Engine
+
+This module implements a text-based RPG engine with a kawaii (cute) Japanese aesthetic.
+It supports multiple players, combat, voting systems, and branching storylines loaded from JSON files.
+
+Key Features:
+- Colorful text-based UI with kawaii emoticons and styling
+- Turn-based combat system with multiple actions
+- Multi-player support with voting mechanics
+- Story branching based on player choices
+- Progress tracking and status displays
+- Save/load functionality (planned)
+
+Classes:
+    Player: Represents a player character with stats and abilities
+    Game: Main game engine that handles story progression and game mechanics
+
+Dependencies:
+    - colorama: For colored terminal output
+    - json: For loading story files
+    - random: For dice rolls and random selections
+    - typing: For type hints
+    - os: For screen clearing
+    - time: For animations and delays
+    - shutil: For terminal size detection
+    - sys: For system operations
+"""
+
 import json
 import random
 from typing import List, Dict
@@ -18,7 +47,17 @@ def clear_screen():
 
 
 def create_health_bar(current: int, maximum: int, width: int = 20) -> str:
-    """Create a visual health bar with customizable width."""
+    """
+    Create a visual health bar with customizable width.
+    
+    Args:
+        current: Current health value
+        maximum: Maximum health value
+        width: Width of the health bar in characters
+        
+    Returns:
+        str: A formatted health bar string with hearts
+    """
     # Using a more kawaii style for the health bar
     # Filled hearts for filled HP and hollow hearts for missing HP
     hearts_filled = int((current / maximum) * width)
@@ -27,7 +66,15 @@ def create_health_bar(current: int, maximum: int, width: int = 20) -> str:
 
 
 def create_status_box(player: 'Player') -> str:
-    """Create a formatted status box for a player."""
+    """
+    Create a formatted status box displaying player information.
+    
+    Args:
+        player: Player object containing stats to display
+        
+    Returns:
+        str: A formatted string containing the player's status in a decorative box
+    """
     terminal_width = shutil.get_terminal_size().columns
     box_width = min(terminal_width - 4, 50)
 
@@ -47,7 +94,13 @@ def create_status_box(player: 'Player') -> str:
 
 
 def display_combat_log(messages: List[str], max_lines: int = 5):
-    """Display a scrolling combat log with the most recent messages."""
+    """
+    Display a scrolling combat log with the most recent messages.
+    
+    Args:
+        messages: List of combat messages to display
+        max_lines: Maximum number of lines to show at once
+    """
     # Use a more kawaii title and subtle pastel color
     print(f"\n{Fore.MAGENTA}✿~ Combat Log ~✿{Style.RESET_ALL}")
     for msg in messages[-max_lines:]:
@@ -56,7 +109,14 @@ def display_combat_log(messages: List[str], max_lines: int = 5):
 
 
 def animate_attack(attacker: str, defender: str, damage: int):
-    """Create a more kawaii animation for attacks."""
+    """
+    Create a kawaii animation for attack sequences.
+    
+    Args:
+        attacker: Name of the attacking character
+        defender: Name of the defending character
+        damage: Amount of damage dealt
+    """
     # Replace the swords with more anime style emoticons
     # Let's make a small transition animation: (ﾉ*ФωФ)ﾉ✧ => ~(>_<~)
     frames = [
@@ -78,7 +138,13 @@ def animate_attack(attacker: str, defender: str, damage: int):
 
 
 def loading_animation(text="Loading", duration=2):
-    """Display a loading animation with a cuter style."""
+    """
+    Display a cute loading animation with customizable text and duration.
+    
+    Args:
+        text: Text to display during loading
+        duration: Duration of the animation in seconds
+    """
     chars = ["(o˘◡˘o)", "(✿◠‿◠)", "(｡･ω･｡)", "(uwu)", "(^•ω•^)", "(⌒‿⌒)"]
     delay = 0.2
     steps = int(duration / delay)
@@ -93,6 +159,7 @@ def loading_animation(text="Loading", duration=2):
 
 
 def display_title_screen():
+    """Display the game's title screen with decorative ASCII art."""
     clear_screen()
     # Adding a pastel gradient-like feel is tricky in terminal,
     # but we can rely on ASCII art and pastel colors.
@@ -109,7 +176,26 @@ def display_title_screen():
 
 
 class Player:
+    """
+    Represents a player character in the game.
+    
+    Attributes:
+        name (str): Player's name
+        health (int): Current health points
+        max_health (int): Maximum health points
+        attack (int): Attack power
+        defense (int): Defense power
+        is_alive (bool): Whether the player is alive
+        status_effects (List[str]): Active status effects
+    """
+
     def __init__(self, name: str):
+        """
+        Initialize a new player.
+        
+        Args:
+            name: The player's name
+        """
         self.name = name
         self.health = 100
         self.max_health = 100
@@ -119,19 +205,49 @@ class Player:
         self.status_effects = []
 
     def roll_dice(self, sides: int = 20) -> int:
+        """
+        Roll a dice with specified number of sides.
+        
+        Args:
+            sides: Number of sides on the dice
+            
+        Returns:
+            int: Random number between 1 and sides
+        """
         return random.randint(1, sides)
 
     def take_damage(self, damage: int):
+        """
+        Apply damage to the player, accounting for defense.
+        
+        Args:
+            damage: Amount of damage to apply
+            
+        Returns:
+            int: Actual damage dealt after defense
+        """
         actual_damage = max(0, damage - self.defense)
         self.health = max(0, self.health - actual_damage)
         self.is_alive = self.health > 0
         return actual_damage
 
     def heal(self, amount: int):
+        """
+        Heal the player for a specified amount.
+        
+        Args:
+            amount: Amount of health to restore
+        """
         self.health = min(self.max_health, self.health + amount)
         print(f"{Fore.GREEN}{self.name} drinks a magical potion and heals for {amount} HP! (✿◠‿◠){Style.RESET_ALL}")
 
     def apply_effect(self, effect: Dict):
+        """
+        Apply various effects to the player.
+        
+        Args:
+            effect: Dictionary containing effect types and values
+        """
         if "heal" in effect:
             self.heal(effect["heal"])
         if "buff_attack" in effect:
@@ -146,7 +262,24 @@ class Player:
 
 
 class Game:
+    """
+    Main game engine class that handles game mechanics and story progression.
+    
+    Attributes:
+        players (List[Player]): List of active players
+        current_scene (str): ID of the current scene
+        story_data (Dict): Loaded story data from JSON
+        current_player_index (int): Index of the current player
+        colors (Dict): Color mapping for text display
+        combat_log (List[str]): List of combat messages
+        terminal_width (int): Width of the terminal
+        total_scenes (int): Total number of scenes in the story
+        scenes_visited (set): Set of visited scene IDs
+        hotkeys (Dict): Mapping of hotkeys to actions
+    """
+
     def __init__(self):
+        """Initialize a new game instance."""
         self.players: List[Player] = []
         self.current_scene = "start"
         self.story_data = {}
@@ -164,14 +297,19 @@ class Game:
         }
 
     def calculate_progress(self):
-        """Calculate and return progress through the game."""
+        """
+        Calculate the player's progress through the game.
+        
+        Returns:
+            float: Percentage of scenes visited
+        """
         if not self.total_scenes:
             self.total_scenes = len([k for k in self.story_data.keys() if k != 'config'])
         progress = (len(self.scenes_visited) / self.total_scenes) * 100
         return min(100, progress)
 
     def display_progress_bar(self):
-        """Display a progress bar showing game completion in a kawaii style."""
+        """Display a kawaii-styled progress bar showing game completion."""
         progress = self.calculate_progress()
         width = 30
         filled = int((progress / 100) * width)
@@ -180,7 +318,12 @@ class Game:
         print(f"\nProgress: {bar} {progress:.1f}%")
 
     def display_main_menu(self):
-        """Display the main menu and handle user input."""
+        """
+        Display the main menu and handle user input.
+        
+        Returns:
+            bool: True if a new game should start, False otherwise
+        """
         while True:
             display_title_screen()
             print(f"\n{Fore.CYAN}(⁀ᗢ⁀) {Style.RESET_ALL}Main Menu{Fore.CYAN} (⁀ᗢ⁀){Style.RESET_ALL}\n")
@@ -241,7 +384,12 @@ class Game:
         input("\nPress Enter to return to the main menu...")
 
     def start_new_game(self):
-        """Initialize and start a new game."""
+        """
+        Initialize and start a new game.
+        
+        Returns:
+            bool: True if game started successfully, False otherwise
+        """
         if not self.load_story('story.json'):
             print(f"{Fore.RED}(>_<) Failed to load story file!{Style.RESET_ALL}")
             input("Press Enter to return to main menu...")
@@ -250,6 +398,15 @@ class Game:
         return True
 
     def load_story(self, filename: str):
+        """
+        Load story data from a JSON file.
+        
+        Args:
+            filename: Path to the story JSON file
+            
+        Returns:
+            bool: True if loaded successfully, False otherwise
+        """
         try:
             with open(filename, 'r', encoding='utf-8') as file:
                 self.story_data = json.load(file)
@@ -263,6 +420,15 @@ class Game:
         return True
 
     def get_color_code(self, color_name: str) -> str:
+        """
+        Convert color name to colorama color code.
+        
+        Args:
+            color_name: Name of the color
+            
+        Returns:
+            str: Colorama color code
+        """
         color_mapping = {
             'black': Fore.BLACK,
             'red': Fore.RED,
@@ -277,6 +443,7 @@ class Game:
         return color_mapping.get(color_name.lower(), Fore.RESET)
 
     def initialize_players(self):
+        """Initialize player characters for a new game."""
         num_players = 4  # Adjust the number of players as needed
         print("\n(◕‿◕) Let's name our brave heroes!")
         for i in range(num_players):
@@ -289,6 +456,7 @@ class Game:
                 print("(¬_¬) Please enter a unique, non-empty name...")
 
     def display_scene(self):
+        """Display the current scene with description and available choices."""
         clear_screen()
         scene = self.story_data.get(self.current_scene, {})
 
@@ -347,6 +515,15 @@ class Game:
                 print(f"{Fore.YELLOW}{i}.{Style.RESET_ALL} {choice_text}")
 
     def replace_placeholders(self, text: str) -> str:
+        """
+        Replace placeholders in text with actual player names.
+        
+        Args:
+            text: Text containing placeholders
+            
+        Returns:
+            str: Text with placeholders replaced
+        """
         placeholder_dict = {
             'current_player': self.players[self.current_player_index].name if self.players else '',
             'player1': self.players[0].name if len(self.players) > 0 else '',
@@ -359,6 +536,15 @@ class Game:
         return text
 
     def handle_combat(self, enemy_stats: Dict):
+        """
+        Handle combat encounters between players and enemies.
+        
+        Args:
+            enemy_stats: Dictionary containing enemy statistics
+            
+        Returns:
+            bool: True if players won, False if they lost
+        """
         clear_screen()
         enemy_health = enemy_stats.get("health", 50)
         enemy_max_health = enemy_health
@@ -447,7 +633,15 @@ class Game:
         return any(p.is_alive for p in self.players)
 
     def get_player_action(self, player: Player):
-        """Get player action with hotkey support in a kawaii style."""
+        """
+        Get player action with hotkey support in a kawaii style.
+        
+        Args:
+            player: Player making the action
+            
+        Returns:
+            str: Selected action
+        """
         actions = [
             ('Attack (A)', '⚔ Launch a daring strike!'),
             ('Defend (D)', '🛡️ Brace yourself for impact!'),
@@ -469,6 +663,12 @@ class Game:
             print(f"{Fore.RED}(｡•́︿•̀｡) Invalid choice! Use hotkeys (A/D/H/S) or type full command.{Style.RESET_ALL}")
 
     def handle_voting(self, voting_system: Dict):
+        """
+        Handle group voting sequences.
+        
+        Args:
+            voting_system: Dictionary containing voting options and rules
+        """
         print("\n(„• ᴗ •„) A vote is required among players.")
         options = voting_system.get("options", [])
         tie_breaker = voting_system.get("tie_breaker", "random")
