@@ -13,49 +13,90 @@ A kawaii text-based RPG engine written in Python that lets you create and play i
 - 🎨 **Colorful UI**: Enjoy a kawaii-themed terminal interface with pastel colors
 - 💝 **Status Effects**: Implement buffs, healing, and other effects
 - 📝 **Story Editor**: Create and edit stories using JSON format
+- 🔌 **Plugin System**: Extend the game with custom plugins
+- 🎯 **Event System**: Hook into game events for custom behavior
 
 ## 🚀 Documentation
 
 - [Story Writing Guide](story_guide.md) - Comprehensive guide for creating adventures
 - [Story Guidelines](Story_Guidelines.md) - Best practices and formatting rules
 - [Technical Documentation](technical_docs.md) - Detailed system architecture and development guide
+- [Refactoring Guide](refactoring_guide.md) - Code structure and organization guide
 
-## 🚀 Quick Start
+## 🛠️ Setup & Installation
 
-1. **Clone the repository**
-```bash
-git clone https://github.com/yourusername/Json2RPGDesu.git
-cd Json2RPGDesu
-```
+1. **Requirements**
+   - Python 3.6+
+   - pip package manager
+   - virtualenv (recommended)
 
-2. **Install dependencies**
-```bash
-pip install -r requirements.txt
-```
+2. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/Json2RPGDesu.git
+   cd Json2RPGDesu
+   ```
 
-3. **Run the game**
-```bash
-python test.py
-```
+3. **Create and activate virtual environment (recommended)**
+   ```bash
+   python -m venv venv
+   # On Windows
+   .\venv\Scripts\activate
+   # On Unix/MacOS
+   source venv/bin/activate
+   ```
 
-## 📋 Requirements
+4. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-- Python 3.6+
-- colorama
-- Other dependencies listed in `requirements.txt`
+5. **Install development dependencies (for contributing)**
+   ```bash
+   pip install -r requirements-dev.txt
+   ```
 
-## 🎮 How to Play
+## 🎮 Running the Game
 
-1. Launch the game
-2. Enter player names (supports multiple players)
-3. Navigate through the story by making choices
-4. Engage in combat and make group decisions
-5. Enjoy multiple endings based on your choices!
+1. **Start the game**
+   ```bash
+   python -m src.game
+   ```
 
-## 📝 Creating Stories
+2. **Command line options**
+   ```bash
+   python -m src.game --multiplayer  # Enable multiplayer mode
+   python -m src.game --debug        # Enable debug logging
+   python -m src.game --story path/to/story.json  # Load custom story
+   ```
 
-Stories are written in JSON format. Check out our [Story Writing Guide](story_guide.md) for detailed instructions on creating your own adventures!
+## 🧪 Testing
 
+1. **Run all tests**
+   ```bash
+   pytest
+   ```
+
+2. **Run specific test modules**
+   ```bash
+   pytest tests/test_game.py
+   pytest tests/test_combat/
+   ```
+
+3. **Run with coverage**
+   ```bash
+   pytest --cov=src tests/
+   ```
+
+## 📝 Plugin System
+
+The game includes a powerful plugin system that allows you to extend functionality:
+
+### Creating a Plugin
+
+1. Create a new directory in `plugins/` for your plugin
+2. Create a `plugin.py` file with your plugin implementation:
+
+```python
 Basic story structure:
 ```json
 {
@@ -96,15 +137,33 @@ Basic story structure:
 
 ## 🛠️ Development
 
-Want to contribute? Great! Here are some ways you can help:
+1. **Project Structure**
+   ```
+   Json2RPGDesu/
+   ├── src/
+   │   ├── core/         # Core game mechanics
+   │   ├── combat/       # Combat system
+   │   ├── ui/           # User interface
+   │   ├── systems/      # Game systems
+   │   └── game.py       # Main game loop
+   ├── tests/            # Test files
+   ├── stories/          # Story JSON files
+   └── docs/             # Documentation
+   ```
 
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Commit your changes (`git commit -m 'Add some amazing feature'`)
-5. Push to the branch (`git push origin feature/amazing-feature`)
-6. Open a Pull Request
+2. **Contributing**
+   - Fork the repository
+   - Create feature branch (`git checkout -b feature/amazing-feature`)
+   - Write tests for new features
+   - Ensure all tests pass
+   - Update documentation
+   - Submit pull request
 
+3. **Code Style**
+   - Follow PEP 8
+   - Use type hints
+   - Write docstrings
+   - Keep functions focused and small
 
 ## 🙏 Acknowledgments
 
@@ -119,4 +178,4 @@ Want to contribute? Great! Here are some ways you can help:
 
 ---
 
-Made with ❤️ and lots of ✨ magic ✨ 
+Made with ❤️ and lots of ✨ magic ✨
