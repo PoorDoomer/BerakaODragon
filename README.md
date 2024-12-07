@@ -24,7 +24,7 @@ A kawaii text-based RPG engine written in Python that lets you create and play i
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/Json2RPGDesu.git
+git clone https://github.com/PoorDoomer/Json2RPGDesu.git
 cd Json2RPGDesu
 ```
 
