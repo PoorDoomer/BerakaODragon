@@ -13,6 +13,8 @@ A kawaii text-based RPG engine written in Python that lets you create and play i
 - 🎨 **Colorful UI**: Enjoy a kawaii-themed terminal interface with pastel colors
 - 💝 **Status Effects**: Implement buffs, healing, and other effects
 - 📝 **Story Editor**: Create and edit stories using JSON format
+- 🔍 **Story Visualizer**: Interactive graph visualization of story paths and connections
+- ✏️ **Visual Story Editor**: User-friendly interface for creating and editing stories
 
 ## 🚀 Documentation
 
@@ -120,3 +122,21 @@ Want to contribute? Great! Here are some ways you can help:
 ---
 
 Made with ❤️ and lots of ✨ magic ✨ 
+
+## 🛠️ Story Creation Tools
+
+### Visual Story Editor
+Launch the story editor by opening `story_editor.html` in your browser. Features include:
+- Intuitive interface for creating and editing scenes
+- Add choices, combat encounters, and voting systems
+- Real-time validation of story structure
+- Import/Export story files
+
+### Story Visualizer
+Open `visualizer.html` to access the story visualizer. Features include:
+- Interactive graph visualization of your story
+- Node-based representation of scenes and connections
+- Color-coded paths for different choice types (combat, voting, etc.)
+- Search and filter functionality
+- Validation checking for broken story links
+- Zoom and pan controls for easy navigation
