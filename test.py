@@ -408,16 +408,34 @@ class Game:
             bool: True if loaded successfully, False otherwise
         """
         try:
-            with open(filename, 'r', encoding='utf-8') as file:
+            # Get the directory containing the current script
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            # Construct absolute path to story.json
+            story_path = os.path.join(script_dir, filename)
+            
+            print(f"{Fore.CYAN}Attempting to load story from: {story_path}{Style.RESET_ALL}")
+            
+            with open(story_path, 'r', encoding='utf-8') as file:
                 self.story_data = json.load(file)
                 colors_config = self.story_data.get('config', {}).get('colors', {})
                 self.colors = {}
                 for key, value in colors_config.items():
                     self.colors[key] = self.get_color_code(value)
+                print(f"{Fore.GREEN}Successfully loaded story file! (｡♥‿♥｡){Style.RESET_ALL}")
+                return True
         except FileNotFoundError:
-            print(f"(；′⌒`) Story file {filename} not found!")
+            print(f"{Fore.RED}(；′⌒`) Story file not found at: {story_path}{Style.RESET_ALL}")
+            print(f"{Fore.YELLOW}Current working directory: {os.getcwd()}{Style.RESET_ALL}")
+            print(f"{Fore.YELLOW}Files in directory:{Style.RESET_ALL}")
+            for f in os.listdir(script_dir):
+                print(f"  - {f}")
             return False
-        return True
+        except json.JSONDecodeError as e:
+            print(f"{Fore.RED}(>﹏<) Error parsing JSON file: {e}{Style.RESET_ALL}")
+            return False
+        except Exception as e:
+            print(f"{Fore.RED}(╥﹏╥) Unexpected error loading story: {str(e)}{Style.RESET_ALL}")
+            return False
 
     def get_color_code(self, color_name: str) -> str:
         """

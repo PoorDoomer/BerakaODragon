@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RPG Story Flowchart</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  #importBtn {
+    margin: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* Modal Styles */
+  #modalOverlay {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.5);
+  }
+  #modal {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    padding:20px;
+    border-radius:8px;
+    width: 90%;
+    height: 80%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+  }
+  #closeModalBtn {
+    position: absolute;
+    top:10px;
+    right:10px;
+    background: #ff6666;
+    border:none;
+    border-radius:4px;
+    color:#fff;
+    cursor: pointer;
+    padding:5px 10px;
+  }
+  
+  /* Graph area */
+  #graphContainer {
+    flex: 3;
+    border:1px solid #ccc;
+    position: relative;
+    overflow:hidden;
+    background: #f8f9fa;
+    border-radius: 8px 0 0 8px;
+  }
+
+  /* Sidebar for scene details */
+  #detailsPanel {
+    flex:1;
+    border-left:1px solid #ccc;
+    padding:10px;
+    overflow:auto;
+    background: #fff;
+    border-radius: 0 8px 8px 0;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  }
+
+  #detailsPanel h2 {
+    margin-top:0;
+  }
+
+  #fileInput {
+    display:none;
+  }
+
+  .node {
+    cursor: pointer;
+    stroke: #fff;
+    stroke-width: 1.5px;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+    transition: all 0.3s ease;
+  }
+
+  .node:hover {
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+  }
+
+  .node.start {
+    filter: drop-shadow(0 0 10px gold);
+  }
+
+  .link {
+    stroke: #999;
+    opacity: 0.6;
+    stroke-opacity: 0.6;
+    transition: stroke-opacity 0.3s ease;
+  }
+
+  .link:hover {
+    stroke-opacity: 1;
+  }
+
+  .highlighted {
+    fill: gold !important;
+    stroke: #444 !important;
+    stroke-width: 2px !important;
+  }
+
+  /* Zoom and Pan instructions */
+  #instructions {
+    position:absolute;
+    top:10px;
+    left:10px;
+    background:rgba(255,255,255,0.95);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding:8px 12px;
+    border-radius:4px;
+    font-size:13px;
+    color: #666;
+  }
+
+  .node.invalid {
+    stroke: #ff4444;
+    stroke-width: 2px;
+  }
+
+  .link.invalid {
+    stroke: #ff4444;
+    stroke-dasharray: 5,5;
+  }
+
+  /* Enhanced node styles */
+  .node-group {
+    cursor: pointer;
+  }
+
+  /* Legend styles */
+  .legend rect {
+    rx: 3;
+    ry: 3;
+  }
+
+  .legend text {
+    font-size: 12px;
+    fill: #666;
+  }
+
+  /* Search and zoom controls enhancement */
+  input[type="text"], button {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 12px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+
+  input[type="text"]:focus, button:hover {
+    border-color: #4a90e2;
+    box-shadow: 0 2px 8px rgba(74,144,226,0.2);
+  }
+
+  /* Checkbox styles */
+  input[type="checkbox"] {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+  }
+
+  label {
+    cursor: pointer;
+    user-select: none;
+    font-size: 13px;
+    color: #666;
+  }
+
+  label:hover {
+    color: #333;
+  }
+
+  .scene-controls {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+  }
+
+  .edit-btn, .delete-btn, .add-btn {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .edit-btn {
+    background: #4a90e2;
+    color: white;
+  }
+
+  .delete-btn {
+    background: #e25555;
+    color: white;
+  }
+
+  .add-btn {
+    background: #4CAF50;
+    color: white;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .form-group textarea {
+    min-height: 100px;
+  }
+
+  /* Add these styles to your existing CSS */
+  .choices-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .choices-list li {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 8px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+  }
+
+  .choices-list li span {
+    flex: 1;
+    margin-right: 10px;
+  }
+
+  .choices-list button {
+    margin-left: 5px;
+  }
+
+  /* Add these styles to your existing <style> section */
+  .choice-item {
+    background: #f5f5f5;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+
+  .choice-preview {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .choice-form {
+    margin-top: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .choice-form .form-group {
+    margin-bottom: 10px;
+  }
+
+  .choice-form input,
+  .choice-form select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 4px;
+  }
+
+  .choice-form button {
+    margin-right: 8px;
+  }
+
+  .save-choice-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .cancel-choice-btn {
+    background: #666;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  #importBtn, #exportBtn {
+    margin: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+
+  #importBtn:hover, #exportBtn:hover {
+    border-color: #4a90e2;
+    box-shadow: 0 2px 8px rgba(74,144,226,0.2);
+  }
+</style>
+</head>
+<body>
+<button id="importBtn">Import JSON</button>
+<button id="exportBtn">Export JSON</button>
+<input type="file" id="fileInput" accept=".json" />
+
+<div id="modalOverlay">
+  <div id="modal">
+    <button id="closeModalBtn">&times;</button>
+    <div id="graphContainer">
+      <div id="instructions">Scroll to zoom, drag background to pan, drag nodes to move</div>
+      <!-- The SVG for the graph will be appended here by the script -->
+    </div>
+    <div id="detailsPanel">
+      <h2>Scene Details</h2>
+      <div class="scene-controls">
+          <button id="editSceneBtn" class="edit-btn">Edit Scene</button>
+          <button id="deleteSceneBtn" class="delete-btn">Delete Scene</button>
+          <button id="addChoiceBtn" class="add-btn">Add Choice</button>
+      </div>
+      <div id="sceneEditor" style="display: none;">
+          <div class="form-group">
+              <label>Scene ID:</label>
+              <input type="text" id="sceneIdInput" />
+          </div>
+          <div class="form-group">
+              <label>Description:</label>
+              <textarea id="sceneDescInput"></textarea>
+          </div>
+          <div class="form-group">
+              <label>Description Color:</label>
+              <select id="sceneColorInput">
+                  <option value="black">Black</option>
+                  <option value="red">Red</option>
+                  <option value="green">Green</option>
+                  <option value="yellow">Yellow</option>
+                  <option value="blue">Blue</option>
+                  <option value="magenta">Magenta</option>
+                  <option value="cyan">Cyan</option>
+                  <option value="white">White</option>
+              </select>
+          </div>
+          <button id="saveSceneBtn">Save Changes</button>
+          <button id="cancelEditBtn">Cancel</button>
+      </div>
+      <div id="sceneTitle"></div>
+      <div id="sceneDescription"></div>
+      <div id="sceneChoices"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
